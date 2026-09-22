@@ -98,10 +98,12 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 }
 .course-card:active{border-color:var(--border-strong);}
 .course-card .thumb{
-  height:86px;border-radius:12px;margin-bottom:12px;
-  overflow:hidden;
-  border:1px solid var(--border);
+  height:86px;border-radius:12px;margin-bottom:12px;font-size:28px;
+  background:linear-gradient(135deg,var(--red-deep),#2a0708);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);position:relative;overflow:hidden;
 }
+.course-card .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 .course-card .level{
   display:inline-block;font-size:11px;color:var(--red);
   background:rgba(226,38,63,.12);border:1px solid var(--border);
@@ -118,9 +120,12 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
   padding:12px 14px;cursor:pointer;
 }
 .list-card .thumb-sm{
-  width:52px;height:52px;border-radius:11px;flex-shrink:0;
-  overflow:hidden;border:1px solid var(--border);
+  width:52px;height:52px;border-radius:11px;flex-shrink:0;font-size:20px;
+  background:linear-gradient(135deg,var(--red-deep),#2a0708);
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--border);
+  position:relative;overflow:hidden;
 }
+.list-card .thumb-sm img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 .list-card .info{flex:1;min-width:0;}
 .list-card h4{font-size:13.5px;font-weight:600;margin-bottom:4px;}
 .list-card .meta{font-size:11.5px;color:var(--text-faint);}
@@ -204,11 +209,13 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 /* ---------- lesson ---------- */
 .video-box{
   margin:14px 20px 0;border-radius:18px;overflow:hidden;position:relative;
-  background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('red.jpg');
-  background-size:cover; background-position:center;
+  background:linear-gradient(150deg,#3a0d10,#120506);
   border:1px solid var(--border);aspect-ratio:16/10;
   display:flex;align-items:center;justify-content:center;
 }
+.video-box img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.video-box::before{content:"";position:absolute;inset:0;background:rgba(10,3,4,.35);z-index:1;}
+.video-box .play-btn,.video-box .vlabel{position:relative;z-index:2;}
 .video-box .play-btn{
   width:58px;height:58px;border-radius:50%;background:rgba(226,38,63,.9);
   display:flex;align-items:center;justify-content:center;color:#fff;
@@ -288,26 +295,78 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 .result-wrap h2{font-size:20px;margin-bottom:8px;}
 .result-wrap p{color:var(--text-dim);font-size:13.5px;margin-bottom:26px;}
 
+/* ---------- prescrição ---------- */
+.presc-search{
+  margin:14px 20px 4px;position:relative;
+}
+.presc-search input{
+  width:100%;padding:13px 16px 13px 40px;border-radius:14px;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  font-size:13.5px;font-family:'IBM Plex Sans',sans-serif;
+}
+.presc-search input::placeholder{color:var(--text-faint);}
+.presc-search input:focus{outline:none;border-color:var(--border-strong);}
+.presc-search .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:14px;}
+
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding:14px 20px 4px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  flex:0 0 auto;padding:7px 14px;border-radius:20px;font-size:12.5px;
+  background:var(--card);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;white-space:nowrap;
+}
+.chip.active{background:rgba(226,38,63,.15);border-color:var(--border-strong);color:var(--text);}
+
+.disclaimer{
+  margin:14px 20px 4px;padding:12px 14px;border-radius:12px;
+  background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.25);
+  font-size:11.5px;color:#e8c877;line-height:1.5;display:flex;gap:9px;
+}
+
+.med-list{padding:4px 20px 20px;display:flex;flex-direction:column;gap:10px;}
+.med-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;cursor:pointer;
+}
+.med-card .m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.med-card h4{font-size:14.5px;font-weight:600;}
+.med-card .cat-tag{font-size:10.5px;color:var(--red);background:rgba(226,38,63,.12);border:1px solid var(--border);padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.med-card .indication{font-size:12px;color:var(--text-faint);margin-bottom:10px;}
+.med-card .dose-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.med-card .dose-grid .d-cell{background:var(--card-2);border-radius:10px;padding:8px 10px;}
+.med-card .dose-grid .d-cell span{display:block;font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px;}
+.med-card .dose-grid .d-cell b{font-size:12.5px;font-family:'IBM Plex Mono',monospace;font-weight:500;}
+.med-card .note{font-size:11.5px;color:var(--text-dim);line-height:1.5;padding-top:8px;border-top:1px solid rgba(226,58,74,.12);}
+.med-card .note b{color:var(--text);}
+.no-results{padding:30px 20px;text-align:center;color:var(--text-faint);font-size:13px;}
+
 /* ---------- bottom nav ---------- */
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;
   display:flex;justify-content:space-around;align-items:center;
-  padding:10px 8px calc(10px + env(safe-area-inset-bottom,0px));
+  padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px));
   background:rgba(14,5,6,.92);backdrop-filter:blur(14px);
   border-top:1px solid var(--border);z-index:30;
 }
 .nav-item{
   display:flex;flex-direction:column;align-items:center;gap:4px;
-  color:var(--text-faint);font-size:10.5px;cursor:pointer;padding:4px 10px;
+  color:var(--text-faint);font-size:10px;cursor:pointer;padding:4px 6px;
 }
 .nav-item.active{color:var(--red);}
-.nav-item svg{width:21px;height:21px;}
+.nav-item svg{width:20px;height:20px;}
 
 .empty-note{
   margin:18px 20px;padding:12px 14px;border-radius:12px;
   background:var(--card);border:1px solid var(--border);
   font-size:12px;color:var(--text-faint);text-align:center;
 }
+
+.toast{
+  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+  background:var(--card-2);border:1px solid var(--border-strong);color:var(--text);
+  padding:12px 18px;border-radius:12px;font-size:13px;z-index:60;
+  opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;
+  max-width:88%;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
@@ -410,6 +469,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
     </div>
 
     <div class="video-box">
+      <img class="cover" src="red.jpg" alt="" onerror="this.remove()">
       <div class="play-btn">▶</div>
       <div class="vlabel"><span class="dot">●</span><span id="v-time">00:00 / 06:12</span></div>
     </div>
@@ -475,6 +535,29 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
     </div>
   </section>
 
+  <!-- ============ PRESCRIÇÃO ============ -->
+  <section class="screen" id="screen-prescricao">
+    <div class="topbar" style="padding-top:22px;">
+      <div style="flex:1;">
+        <div style="font-size:12px;color:var(--text-faint);">Módulo de apoio clínico</div>
+        <h1 style="margin-top:2px;">Prescrição em Odontologia</h1>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️<span>Conteúdo de apoio ao estudo, com posologias usuais para adultos. Não substitui bula, julgamento clínico, histórico do paciente nem diretrizes atualizadas.</span>
+    </div>
+
+    <div class="presc-search">
+      <span class="ic">🔍</span>
+      <input type="text" id="presc-search-input" placeholder="Buscar medicamento (ex: amoxicilina)" oninput="renderMeds()">
+    </div>
+
+    <div class="chip-row" id="presc-chips"></div>
+
+    <div class="med-list" id="med-list"></div>
+  </section>
+
 </div>
 
 <div class="bottom-nav" id="bottom-nav">
@@ -486,6 +569,10 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
     Cursos
   </div>
+  <div class="nav-item" data-screen="screen-prescricao" onclick="navTap(this,'screen-prescricao')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6l1 4H8l1-4z"/><path d="M8 7h8l1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L8 7z"/><path d="M10 12h4M12 10v4"/></svg>
+    Receitas
+  </div>
   <div class="nav-item" data-screen="screen-progress" onclick="navTap(this,'screen-details')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
     Progresso
@@ -496,16 +583,19 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-/* ---------------- data ---------------- */
+/* ---------------- data: cursos ---------------- */
 const COURSES = [
-  {id:'align', title:'Alinhadores Invisíveis: Biomecânica Aplicada', level:'Avançado', duration:'9h 40m', lessons:34, progress:38, image:'orto.png'},
-  {id:'bio', title:'Biossegurança e Controle de Infecção', level:'Iniciante', duration:'4h 15m', lessons:18, progress:0, image:'curso.jpg'},
-  {id:'rx', title:'Diagnóstico por Imagem Digital', level:'Intermediário', duration:'6h 30m', lessons:22, progress:0, image:'red.jpg'},
-  {id:'perio', title:'Periodontia Baseada em Evidências', level:'Avançado', duration:'8h 05m', lessons:27, progress:0, image:'curso.jpg'},
-  {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0, image:'orto.png'},
+  {id:'align', title:'Alinhadores Invisíveis: Biomecânica Aplicada', level:'Avançado', duration:'9h 40m', lessons:34, progress:38, icon:'🦷', image:'orto.png', ready:true},
+  {id:'bio', title:'Biossegurança e Controle de Infecção', level:'Iniciante', duration:'4h 15m', lessons:18, progress:0, icon:'🧤', image:'curso.jpg', ready:false},
+  {id:'rx', title:'Diagnóstico por Imagem Digital', level:'Intermediário', duration:'6h 30m', lessons:22, progress:0, icon:'🩻', image:'red.jpg', ready:false},
+  {id:'perio', title:'Periodontia Baseada em Evidências', level:'Avançado', duration:'8h 05m', lessons:27, progress:0, icon:'🔬', image:'curso.jpg', ready:false},
+  {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0, icon:'🦷', image:'orto.png', ready:false},
 ];
 
+/* ---------------- data: quiz ---------------- */
 const QUIZ = [
   {q:'Qual opção é um exemplo de movimento por corpo em alinhadores?', opts:['Translação vestibular com attachment retangular','Inclinação coronária sem attachment','Extrusão pura sem otimizador','Rotação isolada de canino'], correct:0},
   {q:'Qual a função principal de um attachment otimizador de pressão?', opts:['Aumentar a estética do alinhador','Concentrar força próxima ao centro de resistência','Reduzir o número de trocas de alinhador','Substituir o uso de elásticos'], correct:1},
@@ -517,15 +607,42 @@ const QUIZ = [
   {q:'Qual movimento é considerado o mais difícil de controlar apenas com alinhadores?', opts:['Inclinação vestibular','Extrusão pura','Fechamento de espaço por corpo','Giroversão leve'], correct:1},
 ];
 
+/* ---------------- data: prescrição odontológica ---------------- */
+const MEDS = [
+  {name:'Amoxicilina', cat:'Antibióticos', indication:'Profilaxia e infecções odontogênicas leves a moderadas', dose:'500 mg', interval:'8/8h', duration:'7 dias', note:'Alternativa: 875 mg 12/12h. Contraindicada em alérgicos a penicilinas.'},
+  {name:'Amoxicilina + Clavulanato', cat:'Antibióticos', indication:'Infecções odontogênicas com risco de resistência', dose:'500/125 mg', interval:'8/8h', duration:'7 dias', note:'Opção quando há falha terapêutica com amoxicilina isolada.'},
+  {name:'Clindamicina', cat:'Antibióticos', indication:'Alternativa em alérgicos a penicilina', dose:'300 mg', interval:'6/6h', duration:'7 dias', note:'Atenção ao risco de colite pseudomembranosa em uso prolongado.'},
+  {name:'Azitromicina', cat:'Antibióticos', indication:'Infecções odontogênicas, alternativa de posologia curta', dose:'500 mg', interval:'1x ao dia', duration:'3 dias', note:'Boa opção para melhor adesão do paciente.'},
+  {name:'Metronidazol', cat:'Antibióticos', indication:'Infecções anaeróbias, associado a amoxicilina em periodontite', dose:'400 mg', interval:'8/8h', duration:'7 dias', note:'Evitar consumo de álcool durante o tratamento (efeito antabuse).'},
+  {name:'Dipirona sódica', cat:'Analgésicos', indication:'Dor pós-operatória leve a moderada', dose:'500–1000 mg', interval:'6/6h', duration:'até 3 dias', note:'Analgésico e antitérmico; risco raro de agranulocitose.'},
+  {name:'Paracetamol', cat:'Analgésicos', indication:'Dor leve a moderada, alternativa a AINEs', dose:'500–750 mg', interval:'6/6h', duration:'até 3 dias', note:'Dose máxima diária: 4 g. Preferido em hepatopatas com cautela e gestantes.'},
+  {name:'Ibuprofeno', cat:'Anti-inflamatórios', indication:'Dor e inflamação pós-cirúrgica', dose:'400–600 mg', interval:'6/6h ou 8/8h', duration:'3–5 dias', note:'Tomar após refeições; cautela em gastropatas e hipertensos.'},
+  {name:'Nimesulida', cat:'Anti-inflamatórios', indication:'Dor e edema pós-exodontia', dose:'100 mg', interval:'12/12h', duration:'até 5 dias', note:'Evitar em hepatopatas; não recomendado como primeira escolha em crianças.'},
+  {name:'Prednisolona', cat:'Anti-inflamatórios', indication:'Edema pós-cirúrgico importante (ex: exodontia de terceiros molares)', dose:'20–40 mg', interval:'1x ao dia', duration:'3–5 dias, dose única matinal', note:'Iniciar antes ou logo após a cirurgia; não indicado em infecção ativa não tratada.'},
+  {name:'Lidocaína 2% + epinefrina 1:100.000', cat:'Anestésicos locais', indication:'Anestesia local de rotina', dose:'até 7 mg/kg (máx. 500 mg)', interval:'—', duration:'ação 60–90 min (pulpar)', note:'Vasoconstritor melhora hemostasia e prolonga efeito.'},
+  {name:'Articaína 4% + epinefrina 1:100.000', cat:'Anestésicos locais', indication:'Anestesia local, boa difusão em tecido ósseo', dose:'até 7 mg/kg (máx. 500 mg)', interval:'—', duration:'ação 60–75 min (pulpar)', note:'Boa opção para infiltração em mandíbula, reduzindo necessidade de bloqueio.'},
+  {name:'Mepivacaína 3% sem vasoconstritor', cat:'Anestésicos locais', indication:'Pacientes cardiopatas ou com contraindicação a vasoconstritor', dose:'até 6,6 mg/kg (máx. 400 mg)', interval:'—', duration:'ação pulpar 20–40 min', note:'Duração menor; considerar em procedimentos rápidos.'},
+  {name:'Nistatina (suspensão oral)', cat:'Antifúngicos', indication:'Candidíase oral', dose:'100.000 UI/mL — 1 mL', interval:'6/6h', duration:'7–14 dias', note:'Bochechar e deglutir; manter contato local o máximo possível.'},
+  {name:'Fluconazol', cat:'Antifúngicos', indication:'Candidíase oral recorrente ou refratária', dose:'100–150 mg', interval:'1x ao dia', duration:'7–14 dias', note:'Atenção a interações medicamentosas (metabolização hepática).'},
+];
+
 let quizIndex = 0, quizScore = 0, selectedOpt = null, answered = false;
+let activeCat = 'Todos';
+
+/* ---------------- toast ---------------- */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
 
 /* ---------------- render home ---------------- */
 function courseCardHTML(c, small){
   if(small){
-    return `<div class="list-card" onclick="go('screen-details')">
-      <div class="thumb-sm">
-        <img src="${c.image}" alt="${c.title}" style="width:100%; height:100%; object-fit:cover;">
-      </div>
+    return `<div class="list-card" onclick="openCourse('${c.id}')">
+      <div class="thumb-sm">${c.icon}<img src="${c.image}" alt="" onload="this.parentElement.querySelector('span,.fallback-ic')?.remove?.();this.style.display='block'" onerror="this.remove()"></div>
       <div class="info">
         <h4>${c.title}</h4>
         <div class="meta">${c.level} · ${c.duration} · ${c.lessons} aulas</div>
@@ -533,10 +650,8 @@ function courseCardHTML(c, small){
       <div style="font-size:11px;color:${c.progress>0?'var(--red)':'var(--text-faint)'};">${c.progress>0?c.progress+'%':'Novo'}</div>
     </div>`;
   }
-  return `<div class="course-card" onclick="go('screen-details')">
-    <div class="thumb">
-      <img src="${c.image}" alt="${c.title}" style="width:100%; height:100%; object-fit:cover;">
-    </div>
+  return `<div class="course-card" onclick="openCourse('${c.id}')">
+    <div class="thumb">${c.icon}<img src="${c.image}" alt="" onerror="this.remove()"></div>
     <div class="level">${c.level}</div>
     <h3>${c.title}</h3>
     <div class="meta"><span>⏱ ${c.duration}</span><span>🎬 ${c.lessons}</span></div>
@@ -545,6 +660,16 @@ function courseCardHTML(c, small){
 
 document.getElementById('continue-scroll').innerHTML = COURSES.filter(c=>c.progress>0).map(c=>courseCardHTML(c,false)).join('') + COURSES.filter(c=>c.progress===0).slice(0,2).map(c=>courseCardHTML(c,false)).join('');
 document.getElementById('all-courses-list').innerHTML = COURSES.map(c=>courseCardHTML(c,true)).join('');
+
+function openCourse(id){
+  const c = COURSES.find(x=>x.id===id);
+  if(!c) return;
+  if(!c.ready){
+    showToast(c.title + ' — conteúdo em breve');
+    return;
+  }
+  go('screen-details');
+}
 
 /* ---------------- navigation ---------------- */
 function go(id){
@@ -556,6 +681,7 @@ function navTap(el, screenId){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
   go(screenId);
+  if(screenId==='screen-prescricao') renderMeds();
 }
 function switchTab(el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -624,6 +750,51 @@ function showResults(){
   go('screen-results');
 }
 function restartQuiz(){ startQuiz(); go('screen-quiz'); }
+
+/* ---------------- prescrição logic ---------------- */
+const CATS = ['Todos', ...Array.from(new Set(MEDS.map(m=>m.cat)))];
+document.getElementById('presc-chips').innerHTML = CATS.map(c=>
+  `<div class="chip ${c==='Todos'?'active':''}" data-cat="${c}" onclick="setCat(this,'${c}')">${c}</div>`
+).join('');
+
+function setCat(el, cat){
+  activeCat = cat;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderMeds();
+}
+
+function renderMeds(){
+  const term = (document.getElementById('presc-search-input').value || '').toLowerCase().trim();
+  const filtered = MEDS.filter(m=>{
+    const matchCat = activeCat==='Todos' || m.cat===activeCat;
+    const matchTerm = !term || m.name.toLowerCase().includes(term) || m.indication.toLowerCase().includes(term);
+    return matchCat && matchTerm;
+  });
+  const list = document.getElementById('med-list');
+  if(filtered.length===0){
+    list.innerHTML = `<div class="no-results">Nenhum medicamento encontrado para essa busca.</div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(m=>`
+    <div class="med-card">
+      <div class="m-head">
+        <h4>${m.name}</h4>
+        <div class="cat-tag">${m.cat}</div>
+      </div>
+      <div class="indication">${m.indication}</div>
+      <div class="dose-grid">
+        <div class="d-cell"><span>Dose</span><b>${m.dose}</b></div>
+        <div class="d-cell"><span>Intervalo</span><b>${m.interval}</b></div>
+        <div class="d-cell"><span>Duração</span><b>${m.duration}</b></div>
+        <div class="d-cell"><span>Categoria</span><b>${m.cat}</b></div>
+      </div>
+      <div class="note"><b>Obs.:</b> ${m.note}</div>
+    </div>
+  `).join('');
+}
+renderMeds();
 </script>
 </body>
 </html>
+   
