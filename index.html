@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Odonto Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0304;
+  --bg-2:#120506;
+  --card:#1a0709;
+  --card-2:#220a0c;
+  --border:rgba(226,58,74,.22);
+  --border-strong:rgba(226,58,74,.45);
+  --red:#e2263f;
+  --red-deep:#8c1120;
+  --red-glow:rgba(226,38,63,.35);
+  --text:#f6ecec;
+  --text-dim:#b78f92;
+  --text-faint:#7c5c5e;
+  --green:#3ecf7e;
+  font-family:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  background:radial-gradient(120% 90% at 50% -10%, #2a0a0d 0%, var(--bg) 45%) fixed;
+  color:var(--text);
+  min-height:100%;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  overflow-x:hidden;
+}
+h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+
+#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative;}
+
+/* ---------- top bar ---------- */
+.topbar{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px 6px;
+}
+.topbar .back{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--card);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);cursor:pointer;flex-shrink:0;
+}
+.topbar .back:active{background:var(--card-2);}
+.topbar h1{font-size:17px;font-weight:600;letter-spacing:.01em;flex:1;}
+.topbar .icon-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--card);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--text-dim);
+}
+
+/* ---------- screens ---------- */
+.screen{display:none;flex:1;flex-direction:column;padding-bottom:96px;}
+.screen.active{display:flex;}
+
+/* ---------- home ---------- */
+.hero{
+  margin:8px 20px 18px;padding:26px 22px;border-radius:22px;
+  background:linear-gradient(150deg,#3a0d10 0%,#160607 75%);
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+  background:radial-gradient(circle,var(--red-glow) 0%,transparent 70%);
+}
+.hero .eyebrow{color:var(--red);font-size:13px;font-weight:500;letter-spacing:.02em;}
+.hero h1{font-size:24px;line-height:1.25;margin:8px 0 6px;max-width:80%;}
+.hero p{color:var(--text-dim);font-size:14px;line-height:1.5;max-width:85%;}
+.hero .stat-row{display:flex;gap:18px;margin-top:16px;}
+.hero .stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:19px;}
+.hero .stat span{font-size:12px;color:var(--text-faint);}
+
+.section-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:0 20px;margin:22px 0 12px;
+}
+.section-head h2{font-size:16px;font-weight:600;}
+.section-head a{font-size:13px;color:var(--red);cursor:pointer;}
+
+.course-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 20px 6px;scrollbar-width:none;}
+.course-scroll::-webkit-scrollbar{display:none;}
+
+.course-card{
+  flex:0 0 auto;width:230px;
+  background:linear-gradient(160deg,var(--card) 0%,var(--card-2) 100%);
+  border:1px solid var(--border);border-radius:18px;
+  padding:16px;cursor:pointer;transition:border-color .15s;
+}
+.course-card:active{border-color:var(--border-strong);}
+.course-card .thumb{
+  height:86px;border-radius:12px;margin-bottom:12px;
+  background:linear-gradient(135deg,var(--red-deep),#2a0708);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);
+}
+.course-card .level{
+  display:inline-block;font-size:11px;color:var(--red);
+  background:rgba(226,38,63,.12);border:1px solid var(--border);
+  padding:3px 9px;border-radius:20px;margin-bottom:9px;
+}
+.course-card h3{font-size:14.5px;line-height:1.35;font-weight:600;margin-bottom:8px;}
+.course-card .meta{display:flex;gap:10px;font-size:11.5px;color:var(--text-faint);}
+.course-card .meta span{display:flex;align-items:center;gap:4px;}
+
+.list-block{padding:0 20px;display:flex;flex-direction:column;gap:10px;}
+.list-card{
+  display:flex;gap:13px;align-items:center;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:12px 14px;cursor:pointer;
+}
+.list-card .thumb-sm{
+  width:52px;height:52px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--red-deep),#2a0708);
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--border);
+}
+.list-card .info{flex:1;min-width:0;}
+.list-card h4{font-size:13.5px;font-weight:600;margin-bottom:4px;}
+.list-card .meta{font-size:11.5px;color:var(--text-faint);}
+.list-card .progress-ring{flex-shrink:0;}
+
+/* ---------- course details ---------- */
+.details-hero{padding:6px 20px 0;}
+.details-hero h1{font-size:22px;line-height:1.3;margin-bottom:8px;}
+.details-hero p.sub{color:var(--text-dim);font-size:13.5px;line-height:1.55;}
+.badge-row{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap;}
+.badge{
+  font-size:12px;padding:6px 12px;border-radius:20px;
+  background:var(--card);border:1px solid var(--border);color:var(--text-dim);
+  display:flex;align-items:center;gap:5px;
+}
+.badge.rating{color:#f0b429;border-color:rgba(240,180,41,.25);background:rgba(240,180,41,.08);}
+
+.tabs{display:flex;gap:22px;padding:18px 20px 0;border-bottom:1px solid var(--border);margin-top:8px;}
+.tab{
+  font-size:13.5px;color:var(--text-faint);padding-bottom:12px;cursor:pointer;
+  border-bottom:2px solid transparent;font-weight:500;
+}
+.tab.active{color:var(--text);border-color:var(--red);}
+
+.tab-panel{display:none;padding:18px 20px 4px;}
+.tab-panel.active{display:block;}
+.tab-panel p{color:var(--text-dim);font-size:13.5px;line-height:1.6;margin-bottom:16px;}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:2px 0 18px;}
+.stat-grid .cell{
+  background:var(--card);border:1px solid var(--border);border-radius:13px;
+  padding:12px 6px;text-align:center;
+}
+.stat-grid .cell b{display:block;font-family:'Space Grotesk',sans-serif;font-size:14.5px;margin:4px 0 2px;}
+.stat-grid .cell span{font-size:10.5px;color:var(--text-faint);}
+
+.details-hero h3.small-head{font-size:15px;margin:20px 0 12px;}
+.learn-row{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+  border-bottom:1px solid rgba(226,58,74,.12);font-size:13.5px;color:var(--text-dim);
+}
+.learn-row .check{
+  width:19px;height:19px;border-radius:50%;background:rgba(226,38,63,.15);
+  border:1px solid var(--border-strong);flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.module-row{
+  display:flex;align-items:center;gap:12px;padding:13px 0;
+  border-bottom:1px solid rgba(226,58,74,.12);cursor:pointer;
+}
+.module-row .num{
+  width:30px;height:30px;border-radius:9px;background:var(--card-2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--text-dim);flex-shrink:0;font-family:'IBM Plex Mono',monospace;
+}
+.module-row .m-info{flex:1;}
+.module-row .m-info h5{font-size:13.5px;font-weight:500;margin-bottom:2px;}
+.module-row .m-info span{font-size:11.5px;color:var(--text-faint);}
+.module-row.locked{opacity:.5;}
+.module-row.done .num{background:var(--red);color:#fff;border-color:var(--red);}
+
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;
+  padding:14px 20px calc(16px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(0deg,var(--bg) 60%,transparent);
+  z-index:20;
+}
+.btn-primary{
+  width:100%;padding:15px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#ef2c46,#b31126);
+  color:#fff;font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;
+  cursor:pointer;box-shadow:0 8px 24px -6px rgba(226,38,63,.55);
+}
+.btn-primary:active{transform:scale(.985);}
+.btn-primary.secondary{
+  background:var(--card);border:1px solid var(--border-strong);
+  box-shadow:none;color:var(--text);
+}
+
+/* ---------- lesson ---------- */
+.video-box{
+  margin:14px 20px 0;border-radius:18px;overflow:hidden;position:relative;
+  background:linear-gradient(150deg,#3a0d10,#120506);
+  border:1px solid var(--border);aspect-ratio:16/10;
+  display:flex;align-items:center;justify-content:center;
+}
+.video-box .play-btn{
+  width:58px;height:58px;border-radius:50%;background:rgba(226,38,63,.9);
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 0 0 10px rgba(226,38,63,.12);cursor:pointer;
+}
+.video-box .vlabel{
+  position:absolute;bottom:12px;left:14px;right:14px;
+  display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);
+}
+.video-box .vlabel .dot{color:var(--red);}
+
+.lesson-body{padding:18px 20px 4px;}
+.lesson-body .lesson-tag{font-size:12px;color:var(--red);margin-bottom:6px;}
+.lesson-body h2{font-size:19px;margin-bottom:14px;}
+.lesson-body p{font-size:14px;line-height:1.7;color:var(--text-dim);margin-bottom:14px;}
+.lesson-body h4{font-size:14px;margin:18px 0 8px;}
+
+.clin-box{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:14px 16px;margin:10px 0 16px;
+}
+.clin-box .clin-title{font-size:11.5px;color:var(--red);margin-bottom:8px;font-family:'IBM Plex Mono',monospace;}
+.clin-box p{font-size:13px;color:var(--text-dim);margin:0;line-height:1.6;}
+.clin-box b{color:var(--text);}
+
+.nav-buttons{display:flex;gap:12px;padding:8px 20px 4px;}
+.nav-buttons button{flex:1;padding:14px;border-radius:13px;font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;}
+.nav-buttons .prev{background:var(--card);border:1px solid var(--border-strong);color:var(--text);}
+.nav-buttons .next{background:linear-gradient(135deg,#ef2c46,#b31126);border:none;color:#fff;}
+
+/* ---------- quiz ---------- */
+.quiz-progress-wrap{padding:16px 20px 0;}
+.quiz-progress-wrap .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.quiz-progress-wrap .qcount{font-size:13px;color:var(--text-dim);}
+.quiz-progress-wrap .qcount b{color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:15px;}
+.timer-ring{
+  width:40px;height:40px;border-radius:50%;border:3px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--red);
+  font-family:'IBM Plex Mono',monospace;
+}
+.progress-bar{height:5px;border-radius:6px;background:var(--card);overflow:hidden;}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,#ef2c46,#b31126);border-radius:6px;transition:width .3s;}
+
+.q-block{padding:22px 20px 0;}
+.q-block .q-label{font-size:12px;color:var(--text-faint);margin-bottom:6px;}
+.q-block h3{font-size:16.5px;line-height:1.4;margin-bottom:20px;}
+
+.options{display:flex;flex-direction:column;gap:11px;padding:0 20px;}
+.option{
+  display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:14px;
+  background:var(--card);border:1px solid var(--border);cursor:pointer;
+}
+.option .letter{
+  width:26px;height:26px;border-radius:8px;background:var(--card-2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-family:'IBM Plex Mono',monospace;flex-shrink:0;color:var(--text-dim);
+}
+.option span.txt{flex:1;font-size:13.5px;color:var(--text-dim);}
+.option .dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border-strong);flex-shrink:0;}
+.option.selected{border-color:var(--red);background:rgba(226,38,63,.1);}
+.option.selected .letter{background:var(--red);color:#fff;border-color:var(--red);}
+.option.selected span.txt{color:var(--text);}
+.option.selected .dot{background:var(--red);border-color:var(--red);}
+.option.correct{border-color:var(--green);background:rgba(62,207,126,.1);}
+.option.correct .letter{background:var(--green);color:#0a0304;border-color:var(--green);}
+.option.wrong{border-color:#e2263f;background:rgba(226,38,63,.1);}
+
+/* results */
+.result-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;text-align:center;}
+.result-ring{
+  width:140px;height:140px;border-radius:50%;
+  background:conic-gradient(var(--red) calc(var(--pct)*1%), var(--card) 0);
+  display:flex;align-items:center;justify-content:center;margin-bottom:22px;position:relative;
+}
+.result-ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--bg);}
+.result-ring b{position:relative;font-family:'Space Grotesk',sans-serif;font-size:30px;}
+.result-wrap h2{font-size:20px;margin-bottom:8px;}
+.result-wrap p{color:var(--text-dim);font-size:13.5px;margin-bottom:26px;}
+
+/* ---------- bottom nav ---------- */
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;
+  display:flex;justify-content:space-around;align-items:center;
+  padding:10px 8px calc(10px + env(safe-area-inset-bottom,0px));
+  background:rgba(14,5,6,.92);backdrop-filter:blur(14px);
+  border-top:1px solid var(--border);z-index:30;
+}
+.nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:var(--text-faint);font-size:10.5px;cursor:pointer;padding:4px 10px;
+}
+.nav-item.active{color:var(--red);}
+.nav-item svg{width:21px;height:21px;}
+
+.empty-note{
+  margin:18px 20px;padding:12px 14px;border-radius:12px;
+  background:var(--card);border:1px solid var(--border);
+  font-size:12px;color:var(--text-faint);text-align:center;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="topbar" style="padding-top:22px;">
+      <div style="flex:1;">
+        <div style="font-size:12px;color:var(--text-faint);">Bem-vinda de volta</div>
+        <h1 style="margin-top:2px;">Odonto Academy</h1>
+      </div>
+      <div class="icon-btn">🔔</div>
+    </div>
+
+    <div class="hero">
+      <div class="eyebrow">Continue de onde parou</div>
+      <h1>Alinhadores Invisíveis: Biomecânica Aplicada</h1>
+      <p>Módulo 3 — Attachments e vetores de força</p>
+      <div class="stat-row">
+        <div class="stat"><b id="home-progress-pct">38%</b><span>concluído</span></div>
+        <div class="stat"><b>12/34</b><span>aulas</span></div>
+        <div class="stat"><b>4.8</b><span>avaliação</span></div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>Continue estudando</h2><a>Ver tudo</a></div>
+    <div class="course-scroll" id="continue-scroll"></div>
+
+    <div class="section-head"><h2>Trilhas em destaque</h2><a>Ver tudo</a></div>
+    <div class="list-block" id="all-courses-list"></div>
+  </section>
+
+  <!-- ============ COURSE DETAILS ============ -->
+  <section class="screen" id="screen-details">
+    <div class="topbar">
+      <div class="back" onclick="go('screen-home')">←</div>
+      <h1 id="d-title-top">Detalhes do curso</h1>
+      <div class="icon-btn">↗</div>
+    </div>
+
+    <div class="details-hero">
+      <h1 id="d-title">Alinhadores Invisíveis: Biomecânica Aplicada</h1>
+      <p class="sub" id="d-sub">Aprenda a planejar movimentos dentários previsíveis e a dominar o vocabulário biomecânico dos alinhadores.</p>
+      <div class="badge-row">
+        <div class="badge">🎓 Avançado</div>
+        <div class="badge">⏱ 9h 40m</div>
+        <div class="badge rating">★ 4.8 (1.2k)</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="overview" onclick="switchTab(this)">Visão geral</div>
+      <div class="tab" data-tab="curriculum" onclick="switchTab(this)">Currículo</div>
+      <div class="tab" data-tab="instructor" onclick="switchTab(this)">Instrutor</div>
+    </div>
+
+    <div class="tab-panel active" data-panel="overview">
+      <p>Este curso ensina a interpretar forças, momentos e attachments em alinhadores ortodônticos, com foco em previsibilidade clínica e leitura crítica da literatura.</p>
+
+      <div class="stat-grid">
+        <div class="cell">📦<b>8</b><span>Módulos</span></div>
+        <div class="cell">🎬<b>34</b><span>Aulas</span></div>
+        <div class="cell">⏱<b>9h40</b><span>Duração</span></div>
+        <div class="cell">🏅<b>Sim</b><span>Certificado</span></div>
+      </div>
+
+      <h3 class="small-head">O que você vai aprender</h3>
+      <div class="learn-row"><div class="check">✓</div>Fundamentos de força, momento e centro de resistência</div>
+      <div class="learn-row"><div class="check">✓</div>Biomecânica de attachments e otimizadores</div>
+      <div class="learn-row"><div class="check">✓</div>Movimentos controlados: translação, rotação, torque</div>
+      <div class="learn-row"><div class="check">✓</div>Protocolos de refinamento e leitura de setups digitais</div>
+    </div>
+
+    <div class="tab-panel" data-panel="curriculum">
+      <div class="module-row done" onclick="openLesson(0)"><div class="num">01</div><div class="m-info"><h5>Introdução à biomecânica dos alinhadores</h5><span>4 aulas · 42 min</span></div>✓</div>
+      <div class="module-row done" onclick="openLesson(1)"><div class="num">02</div><div class="m-info"><h5>Sistemas de força e centro de resistência</h5><span>5 aulas · 58 min</span></div>✓</div>
+      <div class="module-row" onclick="openLesson(2)"><div class="num">03</div><div class="m-info"><h5>Attachments e vetores de força</h5><span>6 aulas · 1h 10min</span></div></div>
+      <div class="module-row locked"><div class="num">04</div><div class="m-info"><h5>Movimentos por corpo e por inclinação</h5><span>5 aulas · 54 min</span></div>🔒</div>
+      <div class="module-row locked"><div class="num">05</div><div class="m-info"><h5>Protocolos de refinamento</h5><span>4 aulas · 46 min</span></div>🔒</div>
+    </div>
+
+    <div class="tab-panel" data-panel="instructor">
+      <p>Corpo docente formado por especialistas em ortodontia e biomecânica clínica, com produção científica revisada por pares na área de alinhadores.</p>
+      <div class="empty-note">Perfis detalhados dos instrutores em breve.</div>
+    </div>
+
+    <div style="height:20px;"></div>
+    <div class="sticky-cta">
+      <button class="btn-primary" onclick="openLesson(2)">Continuar curso — Aula 12/34</button>
+    </div>
+  </section>
+
+  <!-- ============ LESSON ============ -->
+  <section class="screen" id="screen-lesson">
+    <div class="topbar">
+      <div class="back" onclick="go('screen-details')">←</div>
+      <h1>Aula</h1>
+      <div class="icon-btn">🔖</div>
+    </div>
+
+    <div class="video-box">
+      <div class="play-btn">▶</div>
+      <div class="vlabel"><span class="dot">●</span><span id="v-time">00:00 / 06:12</span></div>
+    </div>
+
+    <div class="lesson-body">
+      <div class="lesson-tag" id="l-tag">Aula 12 de 34</div>
+      <h2 id="l-title">O que é movimento por corpo?</h2>
+      <p id="l-text">Movimento por corpo (bodily movement) ocorre quando a coroa e a raiz se deslocam na mesma direção e com a mesma magnitude, mantendo o longo eixo do dente paralelo à posição original. Em alinhadores, esse padrão exige attachments que gerem um sistema de forças equivalente a um binário aplicado próximo ao centro de resistência.</p>
+
+      <h4>Exemplo clínico</h4>
+      <div class="clin-box">
+        <div class="clin-title mono">PROTOCOLO — CASO 07</div>
+        <p><b>Dente 12, translação vestibular de 1,2 mm.</b><br>Attachment retangular horizontal + otimizador de pressão no terço cervical vestibular. Ativação por alinhador: 0,20 mm.</p>
+      </div>
+      <p>Sem o attachment adequado, o alinhador tende a inclinar a coroa em vez de mover o dente por corpo — o que compromete o paralelismo radicular planejado no setup digital.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="prev" onclick="changeLesson(-1)">Anterior</button>
+      <button class="next" onclick="changeLesson(1)">Próxima aula</button>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="screen" id="screen-quiz">
+    <div class="topbar">
+      <div class="back" onclick="go('screen-details')">←</div>
+      <h1>Quiz IA</h1>
+      <div style="width:38px;"></div>
+    </div>
+
+    <div class="quiz-progress-wrap">
+      <div class="row">
+        <div class="qcount">Questão <b id="q-current">1</b>/<span id="q-total">8</span></div>
+        <div class="timer-ring" id="q-timer">00:25</div>
+      </div>
+      <div class="progress-bar"><div class="fill" id="q-progress-fill" style="width:12.5%;"></div></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label" id="q-label">Questão 1</div>
+      <h3 id="q-prompt">Qual das opções é um exemplo de movimento por corpo em alinhadores?</h3>
+    </div>
+
+    <div class="options" id="q-options"></div>
+
+    <div style="height:16px;"></div>
+    <div class="sticky-cta">
+      <button class="btn-primary" id="quiz-btn" onclick="submitAnswer()">Confirmar resposta</button>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="screen" id="screen-results">
+    <div class="topbar"><div style="flex:1;"></div></div>
+    <div class="result-wrap">
+      <div class="result-ring" id="result-ring" style="--pct:75;"><b id="result-pct">6/8</b></div>
+      <h2>Boa! Você concluiu o quiz</h2>
+      <p id="result-msg">Sua base em biomecânica de alinhadores está sólida. Revise os attachments antes da próxima aula.</p>
+      <button class="btn-primary" style="width:220px;" onclick="go('screen-details')">Voltar ao curso</button>
+      <div style="height:12px;"></div>
+      <button class="btn-primary secondary" style="width:220px;" onclick="restartQuiz()">Refazer quiz</button>
+    </div>
+  </section>
+
+</div>
+
+<div class="bottom-nav" id="bottom-nav">
+  <div class="nav-item active" data-screen="screen-home" onclick="navTap(this,'screen-home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/></svg>
+    Início
+  </div>
+  <div class="nav-item" data-screen="screen-catalog" onclick="navTap(this,'screen-home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+    Cursos
+  </div>
+  <div class="nav-item" data-screen="screen-progress" onclick="navTap(this,'screen-details')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    Progresso
+  </div>
+  <div class="nav-item" data-screen="screen-profile" onclick="navTap(this,'screen-home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 6-6 8-6s6.5 2 8 6"/></svg>
+    Perfil
+  </div>
+</div>
+
+<script>
+/* ---------------- data ---------------- */
+const COURSES = [
+  {id:'align', title:'Alinhadores Invisíveis: Biomecânica Aplicada', level:'Avançado', duration:'9h 40m', lessons:34, progress:38},
+  {id:'bio', title:'Biossegurança e Controle de Infecção', level:'Iniciante', duration:'4h 15m', lessons:18, progress:0},
+  {id:'rx', title:'Diagnóstico por Imagem Digital', level:'Intermediário', duration:'6h 30m', lessons:22, progress:0},
+  {id:'perio', title:'Periodontia Baseada em Evidências', level:'Avançado', duration:'8h 05m', lessons:27, progress:0},
+  {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0},
+];
+
+const QUIZ = [
+  {q:'Qual opção é um exemplo de movimento por corpo em alinhadores?', opts:['Translação vestibular com attachment retangular','Inclinação coronária sem attachment','Extrusão pura sem otimizador','Rotação isolada de canino'], correct:0},
+  {q:'Qual a função principal de um attachment otimizador de pressão?', opts:['Aumentar a estética do alinhador','Concentrar força próxima ao centro de resistência','Reduzir o número de trocas de alinhador','Substituir o uso de elásticos'], correct:1},
+  {q:'O que caracteriza o centro de resistência de um dente unirradicular?', opts:['Está sempre na coroa','Fica próximo a um terço do comprimento radicular, a partir da crista óssea','É idêntico ao centro de rotação','Não existe em dentes tratados com alinhador'], correct:1},
+  {q:'Attachments retangulares horizontais são indicados principalmente para:', opts:['Movimentos de extrusão pura','Controle de torque e movimentos por corpo','Fechamento de diastemas apenas','Nivelamento do plano oclusal'], correct:1},
+  {q:'O que é "tracking" insuficiente em alinhadores?', opts:['Adaptação perfeita do alinhador ao dente','Falta de acompanhamento do dente ao movimento planejado no setup','Uso incorreto de elásticos intermaxilares','Excesso de attachments no arco'], correct:1},
+  {q:'Qual estrutura biomecânica gera um binário de forças?', opts:['Um único ponto de contato','Duas forças paralelas, de mesma magnitude e sentidos opostos','Uma força única aplicada na coroa','A ausência de attachments'], correct:1},
+  {q:'Refinamentos no tratamento com alinhadores costumam ser indicados quando:', opts:['O paciente troca de cor de alinhador','Há desvio entre a posição real e a planejada em digital setup','O tratamento atinge metade do prazo','Nunca são necessários'], correct:1},
+  {q:'Qual movimento é considerado o mais difícil de controlar apenas com alinhadores?', opts:['Inclinação vestibular','Extrusão pura','Fechamento de espaço por corpo','Giroversão leve'], correct:1},
+];
+
+let quizIndex = 0, quizScore = 0, selectedOpt = null, answered = false;
+
+/* ---------------- render home ---------------- */
+function courseCardHTML(c, small){
+  if(small){
+    return `<div class="list-card" onclick="go('screen-details')">
+      <div class="thumb-sm">🦷</div>
+      <div class="info">
+        <h4>${c.title}</h4>
+        <div class="meta">${c.level} · ${c.duration} · ${c.lessons} aulas</div>
+      </div>
+      <div style="font-size:11px;color:${c.progress>0?'var(--red)':'var(--text-faint)'};">${c.progress>0?c.progress+'%':'Novo'}</div>
+    </div>`;
+  }
+  return `<div class="course-card" onclick="go('screen-details')">
+    <div class="thumb">🦷</div>
+    <div class="level">${c.level}</div>
+    <h3>${c.title}</h3>
+    <div class="meta"><span>⏱ ${c.duration}</span><span>🎬 ${c.lessons}</span></div>
+  </div>`;
+}
+
+document.getElementById('continue-scroll').innerHTML = COURSES.filter(c=>c.progress>0).map(c=>courseCardHTML(c,false)).join('') + COURSES.filter(c=>c.progress===0).slice(0,2).map(c=>courseCardHTML(c,false)).join('');
+document.getElementById('all-courses-list').innerHTML = COURSES.map(c=>courseCardHTML(c,true)).join('');
+
+/* ---------------- navigation ---------------- */
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function navTap(el, screenId){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  go(screenId);
+}
+function switchTab(el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelector(`.tab-panel[data-panel="${el.dataset.tab}"]`).classList.add('active');
+}
+function openLesson(idx){ go('screen-lesson'); }
+function changeLesson(dir){
+  if(dir>0){ go('screen-quiz'); startQuiz(); }
+  else { go('screen-details'); }
+}
+
+/* ---------------- quiz logic ---------------- */
+function startQuiz(){
+  quizIndex = 0; quizScore = 0;
+  document.getElementById('q-total').textContent = QUIZ.length;
+  renderQuestion();
+}
+function renderQuestion(){
+  answered = false; selectedOpt = null;
+  const item = QUIZ[quizIndex];
+  document.getElementById('q-current').textContent = quizIndex+1;
+  document.getElementById('q-label').textContent = 'Questão ' + (quizIndex+1);
+  document.getElementById('q-prompt').textContent = item.q;
+  document.getElementById('q-progress-fill').style.width = ((quizIndex+1)/QUIZ.length*100)+'%';
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-options').innerHTML = item.opts.map((o,i)=>
+    `<div class="option" data-i="${i}" onclick="selectOption(this,${i})">
+       <div class="letter">${letters[i]}</div>
+       <span class="txt">${o}</span>
+       <div class="dot"></div>
+     </div>`).join('');
+  document.getElementById('quiz-btn').textContent = 'Confirmar resposta';
+}
+function selectOption(el, i){
+  if(answered) return;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedOpt = i;
+}
+function submitAnswer(){
+  if(answered){
+    if(quizIndex < QUIZ.length-1){ quizIndex++; renderQuestion(); }
+    else { showResults(); }
+    return;
+  }
+  if(selectedOpt===null) return;
+  answered = true;
+  const item = QUIZ[quizIndex];
+  document.querySelectorAll('.option').forEach((o,i)=>{
+    if(i===item.correct) o.classList.add('correct');
+    else if(i===selectedOpt) o.classList.add('wrong');
+  });
+  if(selectedOpt===item.correct) quizScore++;
+  document.getElementById('quiz-btn').textContent = quizIndex<QUIZ.length-1 ? 'Próxima questão' : 'Ver resultado';
+}
+function showResults(){
+  const pct = Math.round(quizScore/QUIZ.length*100);
+  document.getElementById('result-ring').style.setProperty('--pct', pct);
+  document.getElementById('result-pct').textContent = quizScore + '/' + QUIZ.length;
+  document.getElementById('result-msg').textContent = pct>=70
+    ? 'Sua base em biomecânica de alinhadores está sólida. Siga para o próximo módulo.'
+    : 'Vale revisar os conceitos de força e attachments antes de seguir em frente.';
+  try{ localStorage.setItem('oa-quiz-align', JSON.stringify({score:quizScore,total:QUIZ.length,date:new Date().toISOString()})); }catch(e){}
+  go('screen-results');
+}
+function restartQuiz(){ startQuiz(); go('screen-quiz'); }
+</script>
+</body>
+</html>
