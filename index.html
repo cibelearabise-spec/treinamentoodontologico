@@ -99,8 +99,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 .course-card:active{border-color:var(--border-strong);}
 .course-card .thumb{
   height:86px;border-radius:12px;margin-bottom:12px;
-  background:linear-gradient(135deg,var(--red-deep),#2a0708);
-  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
   border:1px solid var(--border);
 }
 .course-card .level{
@@ -120,8 +119,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 }
 .list-card .thumb-sm{
   width:52px;height:52px;border-radius:11px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--red-deep),#2a0708);
-  display:flex;align-items:center;justify-content:center;border:1px solid var(--border);
+  overflow:hidden;border:1px solid var(--border);
 }
 .list-card .info{flex:1;min-width:0;}
 .list-card h4{font-size:13.5px;font-weight:600;margin-bottom:4px;}
@@ -206,7 +204,8 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 /* ---------- lesson ---------- */
 .video-box{
   margin:14px 20px 0;border-radius:18px;overflow:hidden;position:relative;
-  background:linear-gradient(150deg,#3a0d10,#120506);
+  background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('red.jpg');
+  background-size:cover; background-position:center;
   border:1px solid var(--border);aspect-ratio:16/10;
   display:flex;align-items:center;justify-content:center;
 }
@@ -500,11 +499,11 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 <script>
 /* ---------------- data ---------------- */
 const COURSES = [
-  {id:'align', title:'Alinhadores Invisíveis: Biomecânica Aplicada', level:'Avançado', duration:'9h 40m', lessons:34, progress:38},
-  {id:'bio', title:'Biossegurança e Controle de Infecção', level:'Iniciante', duration:'4h 15m', lessons:18, progress:0},
-  {id:'rx', title:'Diagnóstico por Imagem Digital', level:'Intermediário', duration:'6h 30m', lessons:22, progress:0},
-  {id:'perio', title:'Periodontia Baseada em Evidências', level:'Avançado', duration:'8h 05m', lessons:27, progress:0},
-  {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0},
+  {id:'align', title:'Alinhadores Invisíveis: Biomecânica Aplicada', level:'Avançado', duration:'9h 40m', lessons:34, progress:38, image:'orto.png'},
+  {id:'bio', title:'Biossegurança e Controle de Infecção', level:'Iniciante', duration:'4h 15m', lessons:18, progress:0, image:'curso.jpg'},
+  {id:'rx', title:'Diagnóstico por Imagem Digital', level:'Intermediário', duration:'6h 30m', lessons:22, progress:0, image:'red.jpg'},
+  {id:'perio', title:'Periodontia Baseada em Evidências', level:'Avançado', duration:'8h 05m', lessons:27, progress:0, image:'curso.jpg'},
+  {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0, image:'orto.png'},
 ];
 
 const QUIZ = [
@@ -524,7 +523,9 @@ let quizIndex = 0, quizScore = 0, selectedOpt = null, answered = false;
 function courseCardHTML(c, small){
   if(small){
     return `<div class="list-card" onclick="go('screen-details')">
-      <div class="thumb-sm">🦷</div>
+      <div class="thumb-sm">
+        <img src="${c.image}" alt="${c.title}" style="width:100%; height:100%; object-fit:cover;">
+      </div>
       <div class="info">
         <h4>${c.title}</h4>
         <div class="meta">${c.level} · ${c.duration} · ${c.lessons} aulas</div>
@@ -533,7 +534,9 @@ function courseCardHTML(c, small){
     </div>`;
   }
   return `<div class="course-card" onclick="go('screen-details')">
-    <div class="thumb">🦷</div>
+    <div class="thumb">
+      <img src="${c.image}" alt="${c.title}" style="width:100%; height:100%; object-fit:cover;">
+    </div>
     <div class="level">${c.level}</div>
     <h3>${c.title}</h3>
     <div class="meta"><span>⏱ ${c.duration}</span><span>🎬 ${c.lessons}</span></div>
