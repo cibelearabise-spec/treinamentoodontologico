@@ -445,7 +445,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
       <div class="module-row done" onclick="openLesson(0,0)"><div class="num">01</div><div class="m-info"><h5>Introdução à biomecânica dos alinhadores</h5><span>4 aulas · 42 min</span></div>✓</div>
       <div class="module-row done" onclick="openLesson(1,0)"><div class="num">02</div><div class="m-info"><h5>Sistemas de força e centro de resistência</h5><span>5 aulas · 58 min</span></div>✓</div>
       <div class="module-row" onclick="openLesson(2,0)"><div class="num">03</div><div class="m-info"><h5>Attachments e vetores de força</h5><span>6 aulas · 1h 10min</span></div></div>
-      <div class="module-row locked"><div class="num">04</div><div class="m-info"><h5>Movimentos por corpo e por inclinação</h5><span>5 aulas · 54 min</span></div>🔒</div>
+      <div class="module-row" onclick="openLesson(3,0)"><div class="num">04</div><div class="m-info"><h5>Evidências científicas: bibliometria dos alinhadores</h5><span>7 aulas · 45 min</span></div></div>
       <div class="module-row locked"><div class="num">05</div><div class="m-info"><h5>Protocolos de refinamento</h5><span>4 aulas · 46 min</span></div>🔒</div>
     </div>
 
@@ -624,6 +624,26 @@ const MODULES = {
         text:'Rotações acima de 8–10° em dentes redondos (caninos e pré-molares) costumam exigir dois attachments no mesmo dente, gerando um binário mais eficiente do que um único attachment isolado.' },
       { title:'Leitura crítica do setup digital antes do envio',
         text:'Antes de aprovar o ClinCheck (ou equivalente), verifique: overcorrection nos movimentos de rotação e extrusão, sequência de attachments compatível com o estágio do tratamento, e ausência de colisões oclusais nos estágios intermediários.' }
+    ]},
+    { title:'Evidências científicas: bibliometria dos alinhadores', lessons:[
+      { title:'Por que mapear a biomecânica dos alinhadores?',
+        text:'Desde o posicionador de Kesling (1944) até o Invisalign (1998) e os sistemas atuais, a terapia com alinhadores cresceu muito, e junto com ela a produção científica sobre biomecânica. Análises bibliométricas já existiam sobre alinhadores de forma ampla, mas faltava um mapeamento específico da evolução das evidências biomecânicas.' },
+      { title:'Como o estudo foi conduzido',
+        text:'A busca na Web of Science (All Databases) retornou 1.348 registros. Após leitura de 167 artigos e exclusão de temas fora do escopo (doença gengival, propriedades físico-químicas dos materiais, impressão 3D sem foco biomecânico, revisões narrativas), chegou-se aos 50 artigos mais citados sobre biomecânica de alinhadores. De cada um foram extraídas 20 variáveis, agrupadas em quatro domínios: movimentos dentários, recursos auxiliares, aspectos oclusais e movimentos complexos.',
+        clin:{ title:'FERRAMENTAS DE ANÁLISE', text:'jamovi 2.6 (estatística descritiva) · VOSviewer (redes de coautoria) · MapChart (distribuição geográfica) · Excel (análise temporal).' } },
+      { title:'O panorama da amostra em números',
+        text:'Os 50 artigos somam 5.877 citações, com média de 117,5 citações por artigo, ao longo de 20 anos de produção (2003–2023). O artigo mais citado é Kravitz et al. (2009), com 508 citações, avaliando a eficácia do movimento dentário com Invisalign. Já Haouili et al. (2020) tem a maior densidade de citações por ano (51/ano), sinal de repercussão científica imediata mesmo sendo mais recente.' },
+      { title:'Onde a pesquisa biomecânica se concentra',
+        text:'As variáveis mais investigadas são inclinação labiolingual (12,8%), rotação (10,5%), inclinação mesiodistal (9,8%), intrusão (8,3%) e torque de incisivo (7,5%) — justamente os movimentos historicamente descritos como de menor previsibilidade com alinhadores. Attachments aparecem em 8,3% das ocorrências, refletindo seu papel central no controle desses movimentos.',
+        clin:{ title:'MATERIAL MAIS AVALIADO', text:'62% da amostra avaliou o sistema <b>Invisalign®</b>; os demais 38% se dividem entre termoplásticos (Duran, Erkodur, Biolon), poliuretano, PET-G e sistemas de impressão 3D — refletindo a hegemonia comercial e científica de um único sistema.' },
+        text2:'Aspectos oclusais (sobremordida, mordida aberta, desvio de linha média) e retração em massa aparecem com baixa frequência — são clinicamente relevantes, mas ainda pouco investigados nos artigos de maior impacto.' },
+      { title:'Quem lidera a produção científica mundial',
+        text:'Em citações, os Estados Unidos lideram (12 artigos, 1.881 citações), seguidos por Alemanha (1.004), Itália (937) e China (905). Do total de 50 artigos, 54% foram publicados em apenas dois periódicos: American Journal of Orthodontics and Dentofacial Orthopedics (28%) e The Angle Orthodontist (26%) — uma concentração também observada em outras áreas da Ortodontia.' },
+      { title:'Como os autores se conectam',
+        text:'A rede de coautoria (VOSviewer) revelou 24 autores em 4 clusters ligados a grupos específicos: Zurique/Atenas (Eliades T.), Saint Louis (Kim, Ueno), Mainz (Jung B.A.) e Bonn/Freiburg (Bourauel C.). Jung B.A. é o elo entre os dois grupos alemães, e Eliades T. é o nó de maior conectividade da rede como um todo — mas nenhum dos autores mais citados isoladamente (Kravitz, Djeu) aparece entre os nós mais centrais, mostrando que impacto científico e centralidade colaborativa são coisas diferentes.' },
+      { title:'O que a literatura ainda não respondeu',
+        text:'Apenas 8% dos 50 artigos são ensaios clínicos randomizados — a maioria é estudo clínico retrospectivo (30%), prospectivo (26%) ou in vitro (24%). Isso limita o nível de evidência disponível. Também há pouca pesquisa sobre sistemas alternativos ao Invisalign e sobre desfechos oclusais e verticais, apontando direções claras para pesquisas futuras.',
+        text2:'Para a prática clínica, o recado é reconhecer os movimentos de menor previsibilidade (rotação, torque) e planejar recursos auxiliares com base nessas evidências — mesmo sabendo que a base científica ainda é concentrada em poucos grupos, países e um único sistema comercial.' }
     ]},
   ]
 };
