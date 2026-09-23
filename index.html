@@ -442,9 +442,9 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
     </div>
 
     <div class="tab-panel" data-panel="curriculum">
-      <div class="module-row done" onclick="openLesson(0)"><div class="num">01</div><div class="m-info"><h5>Introdução à biomecânica dos alinhadores</h5><span>4 aulas · 42 min</span></div>✓</div>
-      <div class="module-row done" onclick="openLesson(1)"><div class="num">02</div><div class="m-info"><h5>Sistemas de força e centro de resistência</h5><span>5 aulas · 58 min</span></div>✓</div>
-      <div class="module-row" onclick="openLesson(2)"><div class="num">03</div><div class="m-info"><h5>Attachments e vetores de força</h5><span>6 aulas · 1h 10min</span></div></div>
+      <div class="module-row done" onclick="openLesson(0,0)"><div class="num">01</div><div class="m-info"><h5>Introdução à biomecânica dos alinhadores</h5><span>4 aulas · 42 min</span></div>✓</div>
+      <div class="module-row done" onclick="openLesson(1,0)"><div class="num">02</div><div class="m-info"><h5>Sistemas de força e centro de resistência</h5><span>5 aulas · 58 min</span></div>✓</div>
+      <div class="module-row" onclick="openLesson(2,0)"><div class="num">03</div><div class="m-info"><h5>Attachments e vetores de força</h5><span>6 aulas · 1h 10min</span></div></div>
       <div class="module-row locked"><div class="num">04</div><div class="m-info"><h5>Movimentos por corpo e por inclinação</h5><span>5 aulas · 54 min</span></div>🔒</div>
       <div class="module-row locked"><div class="num">05</div><div class="m-info"><h5>Protocolos de refinamento</h5><span>4 aulas · 46 min</span></div>🔒</div>
     </div>
@@ -456,7 +456,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 
     <div style="height:20px;"></div>
     <div class="sticky-cta">
-      <button class="btn-primary" onclick="openLesson(2)">Continuar curso — Aula 12/34</button>
+      <button class="btn-primary" onclick="openLesson(2,1)">Continuar curso — Aula 12/34</button>
     </div>
   </section>
 
@@ -479,17 +479,19 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
       <h2 id="l-title">O que é movimento por corpo?</h2>
       <p id="l-text">Movimento por corpo (bodily movement) ocorre quando a coroa e a raiz se deslocam na mesma direção e com a mesma magnitude, mantendo o longo eixo do dente paralelo à posição original. Em alinhadores, esse padrão exige attachments que gerem um sistema de forças equivalente a um binário aplicado próximo ao centro de resistência.</p>
 
-      <h4>Exemplo clínico</h4>
-      <div class="clin-box">
-        <div class="clin-title mono">PROTOCOLO — CASO 07</div>
-        <p><b>Dente 12, translação vestibular de 1,2 mm.</b><br>Attachment retangular horizontal + otimizador de pressão no terço cervical vestibular. Ativação por alinhador: 0,20 mm.</p>
+      <div id="l-clin-wrap">
+        <h4>Exemplo clínico</h4>
+        <div class="clin-box">
+          <div class="clin-title mono" id="l-clin-title">PROTOCOLO — CASO 07</div>
+          <p id="l-clin-text"><b>Dente 12, translação vestibular de 1,2 mm.</b><br>Attachment retangular horizontal + otimizador de pressão no terço cervical vestibular. Ativação por alinhador: 0,20 mm.</p>
+        </div>
       </div>
-      <p>Sem o attachment adequado, o alinhador tende a inclinar a coroa em vez de mover o dente por corpo — o que compromete o paralelismo radicular planejado no setup digital.</p>
+      <p id="l-text2">Sem o attachment adequado, o alinhador tende a inclinar a coroa em vez de mover o dente por corpo — o que compromete o paralelismo radicular planejado no setup digital.</p>
     </div>
 
     <div class="nav-buttons">
       <button class="prev" onclick="changeLesson(-1)">Anterior</button>
-      <button class="next" onclick="changeLesson(1)">Próxima aula</button>
+      <button class="next" id="lesson-next-btn" onclick="changeLesson(1)">Próxima aula</button>
     </div>
   </section>
 
@@ -595,7 +597,64 @@ const COURSES = [
   {id:'endo', title:'Endodontia Contemporânea', level:'Intermediário', duration:'7h 20m', lessons:24, progress:0, icon:'🦷', image:'orto.png', ready:false},
 ];
 
-/* ---------------- data: quiz ---------------- */
+/* ---------------- data: módulos e aulas do curso "align" ----------------
+   Para publicar uma aula nova: adicione um objeto ao array "lessons" do
+   módulo correspondente, com title, text e (opcional) clin{title,text}.
+   Se não passar "clin", o exemplo clínico some sozinho na tela. */
+const MODULES = {
+  align: [
+    { title:'Introdução à biomecânica dos alinhadores', lessons:[
+      { title:'Módulo concluído', text:'Revisão deste módulo disponível para consulta a qualquer momento.' }
+    ]},
+    { title:'Sistemas de força e centro de resistência', lessons:[
+      { title:'Módulo concluído', text:'Revisão deste módulo disponível para consulta a qualquer momento.' }
+    ]},
+    { title:'Attachments e vetores de força', lessons:[
+      { title:'O que são attachments e para que servem',
+        text:'Attachments são relevos de resina colados ao dente para ampliar a área de contato do alinhador e permitir que ele exerça forças e momentos que a plástica sozinha não conseguiria gerar de forma previsível.' },
+      { title:'O que é movimento por corpo?',
+        text:'Movimento por corpo (bodily movement) ocorre quando a coroa e a raiz se deslocam na mesma direção e com a mesma magnitude, mantendo o longo eixo do dente paralelo à posição original. Em alinhadores, esse padrão exige attachments que gerem um sistema de forças equivalente a um binário aplicado próximo ao centro de resistência.',
+        clin:{ title:'PROTOCOLO — CASO 07', text:'<b>Dente 12, translação vestibular de 1,2 mm.</b><br>Attachment retangular horizontal + otimizador de pressão no terço cervical vestibular. Ativação por alinhador: 0,20 mm.' },
+        text2:'Sem o attachment adequado, o alinhador tende a inclinar a coroa em vez de mover o dente por corpo — o que compromete o paralelismo radicular planejado no setup digital.' },
+      { title:'Attachments retangulares: horizontais x verticais',
+        text:'O horizontal favorece controle de torque e translação vestibulolingual; o vertical favorece controle de extrusão/intrusão e rotação. A escolha depende do movimento predominante planejado para aquele dente no setup digital.' },
+      { title:'Otimizadores de pressão: quando usar',
+        text:'Otimizadores concentram força em uma área específica do dente, sendo úteis quando o attachment convencional não gera pressão suficiente no ponto de aplicação desejado — por exemplo, em movimentos puros de rotação em dentes com coroa curta.' },
+      { title:'Combinando attachments para rotação e torque',
+        text:'Rotações acima de 8–10° em dentes redondos (caninos e pré-molares) costumam exigir dois attachments no mesmo dente, gerando um binário mais eficiente do que um único attachment isolado.' },
+      { title:'Leitura crítica do setup digital antes do envio',
+        text:'Antes de aprovar o ClinCheck (ou equivalente), verifique: overcorrection nos movimentos de rotação e extrusão, sequência de attachments compatível com o estágio do tratamento, e ausência de colisões oclusais nos estágios intermediários.' }
+    ]},
+  ]
+};
+let currentCourseKey = 'align', currentModuleIdx = 2, currentLessonIdx = 0;
+
+function renderLesson(){
+  const mod = MODULES[currentCourseKey][currentModuleIdx];
+  const lesson = mod.lessons[currentLessonIdx];
+  document.getElementById('l-tag').textContent = `Módulo ${currentModuleIdx+1} · Aula ${currentLessonIdx+1} de ${mod.lessons.length} — ${mod.title}`;
+  document.getElementById('l-title').textContent = lesson.title;
+  document.getElementById('l-text').textContent = lesson.text;
+  const clinWrap = document.getElementById('l-clin-wrap');
+  const text2El = document.getElementById('l-text2');
+  if(lesson.clin){
+    clinWrap.style.display = '';
+    document.getElementById('l-clin-title').textContent = lesson.clin.title;
+    document.getElementById('l-clin-text').innerHTML = lesson.clin.text;
+  } else {
+    clinWrap.style.display = 'none';
+  }
+  if(lesson.text2){
+    text2El.style.display = '';
+    text2El.textContent = lesson.text2;
+  } else {
+    text2El.style.display = 'none';
+  }
+  const isLast = currentLessonIdx === mod.lessons.length - 1;
+  document.getElementById('lesson-next-btn').textContent = isLast ? 'Fazer quiz do módulo' : 'Próxima aula';
+}
+
+
 const QUIZ = [
   {q:'Qual opção é um exemplo de movimento por corpo em alinhadores?', opts:['Translação vestibular com attachment retangular','Inclinação coronária sem attachment','Extrusão pura sem otimizador','Rotação isolada de canino'], correct:0},
   {q:'Qual a função principal de um attachment otimizador de pressão?', opts:['Aumentar a estética do alinhador','Concentrar força próxima ao centro de resistência','Reduzir o número de trocas de alinhador','Substituir o uso de elásticos'], correct:1},
@@ -689,10 +748,19 @@ function switchTab(el){
   el.classList.add('active');
   document.querySelector(`.tab-panel[data-panel="${el.dataset.tab}"]`).classList.add('active');
 }
-function openLesson(idx){ go('screen-lesson'); }
+function openLesson(moduleIdx, lessonIdx){
+  currentModuleIdx = moduleIdx;
+  currentLessonIdx = lessonIdx;
+  renderLesson();
+  go('screen-lesson');
+}
 function changeLesson(dir){
-  if(dir>0){ go('screen-quiz'); startQuiz(); }
-  else { go('screen-details'); }
+  const mod = MODULES[currentCourseKey][currentModuleIdx];
+  const next = currentLessonIdx + dir;
+  if(next < 0){ go('screen-details'); return; }
+  if(next >= mod.lessons.length){ go('screen-quiz'); startQuiz(); return; }
+  currentLessonIdx = next;
+  renderLesson();
 }
 
 /* ---------------- quiz logic ---------------- */
@@ -797,4 +865,3 @@ renderMeds();
 </script>
 </body>
 </html>
-   
