@@ -241,6 +241,13 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
 .clin-box p{font-size:13px;color:var(--text-dim);margin:0;line-height:1.6;}
 .clin-box b{color:var(--text);}
 
+.resource-link{
+  display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:14px;
+  background:rgba(226,38,63,.08);border:1px solid var(--border-strong);
+  color:var(--text);font-size:13.5px;font-weight:500;text-decoration:none;margin:6px 0 16px;
+}
+.resource-link:active{background:rgba(226,38,63,.16);}
+
 .nav-buttons{display:flex;gap:12px;padding:8px 20px 4px;}
 .nav-buttons button{flex:1;padding:14px;border-radius:13px;font-size:14px;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;}
 .nav-buttons .prev{background:var(--card);border:1px solid var(--border-strong);color:var(--text);}
@@ -468,7 +475,7 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
       <div class="icon-btn">🔖</div>
     </div>
 
-    <div class="video-box">
+    <div class="video-box" id="video-box">
       <img class="cover" src="red.jpg" alt="" onerror="this.remove()">
       <div class="play-btn">▶</div>
       <div class="vlabel"><span class="dot">●</span><span id="v-time">00:00 / 06:12</span></div>
@@ -487,6 +494,12 @@ h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
         </div>
       </div>
       <p id="l-text2">Sem o attachment adequado, o alinhador tende a inclinar a coroa em vez de mover o dente por corpo — o que compromete o paralelismo radicular planejado no setup digital.</p>
+
+      <div id="l-resource-wrap" style="display:none;">
+        <a id="l-resource-link" class="resource-link" href="#" target="_blank" rel="noopener">
+          📄 <span id="l-resource-label">Baixar material</span>
+        </a>
+      </div>
     </div>
 
     <div class="nav-buttons">
@@ -627,7 +640,8 @@ const MODULES = {
     ]},
     { title:'Evidências científicas: bibliometria dos alinhadores', lessons:[
       { title:'Por que mapear a biomecânica dos alinhadores?',
-        text:'Desde o posicionador de Kesling (1944) até o Invisalign (1998) e os sistemas atuais, a terapia com alinhadores cresceu muito, e junto com ela a produção científica sobre biomecânica. Análises bibliométricas já existiam sobre alinhadores de forma ampla, mas faltava um mapeamento específico da evolução das evidências biomecânicas.' },
+        text:'Desde o posicionador de Kesling (1944) até o Invisalign (1998) e os sistemas atuais, a terapia com alinhadores cresceu muito, e junto com ela a produção científica sobre biomecânica. Análises bibliométricas já existiam sobre alinhadores de forma ampla, mas faltava um mapeamento específico da evolução das evidências biomecânicas.',
+        resource:{ label:'Baixar apresentação completa (PDF)', file:'biomecanica-alinhadores.pdf' } },
       { title:'Como o estudo foi conduzido',
         text:'A busca na Web of Science (All Databases) retornou 1.348 registros. Após leitura de 167 artigos e exclusão de temas fora do escopo (doença gengival, propriedades físico-químicas dos materiais, impressão 3D sem foco biomecânico, revisões narrativas), chegou-se aos 50 artigos mais citados sobre biomecânica de alinhadores. De cada um foram extraídas 20 variáveis, agrupadas em quatro domínios: movimentos dentários, recursos auxiliares, aspectos oclusais e movimentos complexos.',
         clin:{ title:'FERRAMENTAS DE ANÁLISE', text:'jamovi 2.6 (estatística descritiva) · VOSviewer (redes de coautoria) · MapChart (distribuição geográfica) · Excel (análise temporal).' } },
@@ -652,6 +666,12 @@ let currentCourseKey = 'align', currentModuleIdx = 2, currentLessonIdx = 0;
 function renderLesson(){
   const mod = MODULES[currentCourseKey][currentModuleIdx];
   const lesson = mod.lessons[currentLessonIdx];
+  const videoBox = document.getElementById('video-box');
+  if(lesson.video){
+    videoBox.innerHTML = `<video controls playsinline style="width:100%;height:100%;object-fit:cover;border-radius:18px;"${lesson.video_poster ? ` poster="${lesson.video_poster}"` : ''}><source src="${lesson.video}">Seu navegador não suporta vídeo.</video>`;
+  } else {
+    videoBox.innerHTML = `<img class="cover" src="red.jpg" alt="" onerror="this.remove()"><div class="play-btn">▶</div><div class="vlabel"><span class="dot">●</span><span id="v-time">00:00 / 06:12</span></div>`;
+  }
   document.getElementById('l-tag').textContent = `Módulo ${currentModuleIdx+1} · Aula ${currentLessonIdx+1} de ${mod.lessons.length} — ${mod.title}`;
   document.getElementById('l-title').textContent = lesson.title;
   document.getElementById('l-text').textContent = lesson.text;
@@ -669,6 +689,14 @@ function renderLesson(){
     text2El.textContent = lesson.text2;
   } else {
     text2El.style.display = 'none';
+  }
+  const resWrap = document.getElementById('l-resource-wrap');
+  if(lesson.resource){
+    resWrap.style.display = '';
+    document.getElementById('l-resource-link').href = lesson.resource.file;
+    document.getElementById('l-resource-label').textContent = lesson.resource.label;
+  } else {
+    resWrap.style.display = 'none';
   }
   const isLast = currentLessonIdx === mod.lessons.length - 1;
   document.getElementById('lesson-next-btn').textContent = isLast ? 'Fazer quiz do módulo' : 'Próxima aula';
